@@ -1,0 +1,65 @@
+.bus-seat-picker {
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.seats-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 seats per row */
+  gap: 10px;
+  justify-items: center;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.seat {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: #f2f2f2; /* Default color for available seats */
+  transition: background-color 0.3s;
+  position: relative;
+}
+
+.seat span {
+  font-weight: bold;
+}
+
+.seat small {
+  font-size: 10px;
+  color: #555;
+}
+
+.seat:hover {
+  background-color: #d1d1d1;
+}
+
+.seat.selected {
+  background-color: #4caf50; /* Green for selected seats */
+  color: white;
+}
+
+.seat.reserved {
+  background-color: #ff5252; /* Red for reserved seats */
+  color: white;
+  cursor: not-allowed;
+}
+
+.selected-seats {
+  margin-top: 20px;
+}
+
+.selected-seats h3 {
+  margin-bottom: 10px;
+}
