@@ -103,7 +103,7 @@ const SignUp = () => {
                 </label>
               </div>
 
-              {/* Role Selection (Radio Buttons) */}
+              {/* Role Selection (Radio Buttons)
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Role</span>
@@ -128,7 +128,7 @@ const SignUp = () => {
                     className="radio"
                   />
                 </div>
-              </div>
+              </div> */}
 
               {/* Submit Button */}
               <div className="form-control mt-6">

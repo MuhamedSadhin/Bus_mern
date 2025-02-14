@@ -31,8 +31,12 @@ const Login = () => {
             withCredentials: true,
         }
       );
-        console.log("Login successful:", response.data);
-        navigate('/home');
+      console.log("Login successful:", response.data.user.role);
+      if (response.data.user.role === "admin") {
+        navigate("/viewbus");
+      } else {
+        navigate("/home");
+      }
       // You can redirect the user or save the token here, depending on your flow
     } catch (error) {
       console.error("Login error:", error);

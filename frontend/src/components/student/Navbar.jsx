@@ -11,7 +11,7 @@ const Navbar = () => {
             className="btn btn-ghost text-xl"
             onClick={() => navigate("/home")}
           >
-            daisyUI
+          College Bus
           </a>
         </div>
         <div className="flex-none">

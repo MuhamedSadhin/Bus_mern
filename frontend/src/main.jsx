@@ -18,13 +18,13 @@ createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <Routes>
       <Route path="/signup" element={<SignUp />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/booked" element={<BookedBusesPage />} />
       <Route path="/seat/:busId" element={<SeatRegForm />} />
       <Route path="/addBus" element={<BusRegistrationForm />} />
       <Route path="/viewbus" element={<ViewBus />} />
-      <Route path="/booked" element={<BookedBusesPage />} />
       <Route path="/bus/:busId" element={<BusDetails />} />
     </Routes>
   </BrowserRouter>

@@ -6,6 +6,7 @@ const BookedBusesPage = () => {
   const [buses, setBuses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [user, setUser] = useState(null);
 
   // Fetch Booked Buses for the User
   useEffect(() => {
@@ -15,6 +16,7 @@ const BookedBusesPage = () => {
       })
       .then((response) => {
         setBuses(response.data);
+        console.log(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -22,6 +24,17 @@ const BookedBusesPage = () => {
         setError("Failed to fetch bus details.");
         setLoading(false);
       });
+    
+    
+        axios
+          .get("http://localhost:5000/api/auth/me", { withCredentials: true })
+          .then((response) => {
+            setUser(response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching user details:", error);
+            setError("Failed to fetch user details.");
+          });
   }, []);
 
   // Handle Deletion of a Bus Booking
@@ -61,7 +74,7 @@ const BookedBusesPage = () => {
             <div className="space-y-4">
               {buses.map((bus) => {
                 const student = bus.students.find(
-                  (s) => s.user._id === "12345"
+                  (s) => s.user._id === user._id
                 ); // Replace with actual user ID
 
                 return (
