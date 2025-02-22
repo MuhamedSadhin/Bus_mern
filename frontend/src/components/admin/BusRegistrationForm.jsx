@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import AdminNavbar from "./AdminNavbar";
+import { useNavigate } from "react-router-dom";
 
 const BusRegistrationForm = () => {
   const [busNumber, setBusNumber] = useState("");
@@ -8,7 +9,7 @@ const BusRegistrationForm = () => {
   const [driverName, setDriverName] = useState("");
   const [driverPhone, setDriverPhone] = useState("");
   const [mainRoute, setMainRoute] = useState("");
-  const [route, setRoute] = useState([{ name: "", price: 0 }]);
+  const [route, setRoute] = useState([{ name: "", price: 0, time: "" }]);
 
   const handleRouteChange = (index, field, value) => {
     const updatedRoute = [...route];
@@ -17,14 +18,14 @@ const BusRegistrationForm = () => {
   };
 
   const addSubStop = () => {
-    setRoute([...route, { name: "", price: 0 }]);
+    setRoute([...route, { name: "", price: 0, time: "" }]);
   };
 
   const removeSubStop = (index) => {
     const updatedRoute = route.filter((_, i) => i !== index);
     setRoute(updatedRoute);
   };
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -40,6 +41,7 @@ const BusRegistrationForm = () => {
         }
       );
       alert("Bus registered successfully!");
+      navigate('/viewbus');
       console.log(response.data);
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -53,7 +55,7 @@ const BusRegistrationForm = () => {
 
   return (
     <div>
-      <AdminNavbar/>
+      <AdminNavbar />
       <div className="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md">
         <h2 className="text-2xl font-bold mb-4">Register a Bus</h2>
         <form onSubmit={handleSubmit}>
@@ -123,34 +125,45 @@ const BusRegistrationForm = () => {
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2">Route</label>
             {route.map((subStop, index) => (
-              <div key={index} className="mb-2 flex justify-evenly">
-                <input
-                  type="text"
-                  placeholder="Sub-stop Name"
-                  value={subStop.name}
-                  onChange={(e) =>
-                    handleRouteChange(index, "name", e.target.value)
-                  }
-                  className="w-full p-2 border rounded mb-1 m-2"
-                  required
-                />
-                <input
-                  type="number"
-                  placeholder="Price"
-                  value={subStop.price}
-                  onChange={(e) =>
-                    handleRouteChange(index, "price", e.target.value)
-                  }
-                  className="w-full p-2 border rounded mb-1 m-2"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => removeSubStop(index)}
-                  className="mt-1 text-red-500 text-sm"
-                >
-                  Remove
-                </button>
+              <div key={index} className="mb-2 flex flex-col">
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="Sub-stop Name"
+                    value={subStop.name}
+                    onChange={(e) =>
+                      handleRouteChange(index, "name", e.target.value)
+                    }
+                    className="w-full p-2 border rounded mb-1"
+                    required
+                  />
+                  <input
+                    type="number"
+                    placeholder="Price"
+                    value={subStop.price}
+                    onChange={(e) =>
+                      handleRouteChange(index, "price", e.target.value)
+                    }
+                    className="w-1/3 p-2 border rounded mb-1"
+                    required
+                  />
+                  <input
+                    type="time"
+                    value={subStop.time}
+                    onChange={(e) =>
+                      handleRouteChange(index, "time", e.target.value)
+                    }
+                    className="w-1/3 p-2 border rounded mb-1"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeSubStop(index)}
+                    className="text-red-500 text-sm"
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
             ))}
             <button

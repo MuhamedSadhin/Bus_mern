@@ -6,6 +6,8 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: { type: String, enum: ["admin", "student"], default: "student" },
+  department: { type: String, required: true }, // New field for department
+  semester: { type: String, required: true }, // New field for semester
 });
 
 // Hash password before saving

@@ -33,7 +33,7 @@ const Login = () => {
       );
       console.log("Login successful:", response.data.user.role);
       if (response.data.user.role === "admin") {
-        navigate("/viewbus");
+        navigate("/adminHome");
       } else {
         navigate("/home");
       }
@@ -128,6 +128,15 @@ const Login = () => {
                 Login
               </button>
             </div>
+            <p className="text-center text-sm text-gray-600 mt-4">
+              Don't have an account?{" "}
+              <span
+                className="text-blue-600 hover:underline cursor-pointer"
+                onClick={() => navigate("/signup")}
+              >
+                Sign Up
+              </span>
+            </p>
           </form>
         </div>
       </div>

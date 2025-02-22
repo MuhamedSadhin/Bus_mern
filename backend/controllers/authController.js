@@ -10,9 +10,16 @@ const generateToken = (user) => {
 
 // Register
 exports.register = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, department, semester } = req.body;
   try {
-    const user = new User({ name, email, password, role });
+    const user = new User({
+      name,
+      email,
+      password,
+      role,
+      department,
+      semester,
+    });
     await user.save();
     const token = generateToken(user);
 

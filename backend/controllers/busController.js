@@ -4,7 +4,7 @@ const User = require("../models/User");
 
 // Create a new bus
 exports.createBus = async (req, res) => {
-  const { busNumber, route, totalSeats, driverName, driverPhone, mainRoute } =
+  const { busNumber, route, totalSeats, driverName, driverPhone, mainRoute  } =
     req.body;
   console.log(req.body);
 
@@ -258,6 +258,7 @@ exports.getReservedSeat = async (req, res) => {
       occupiedSeats: bus.occupiedSeats,
       driverName: bus.driverName,
       driverPhone: bus.driverPhone,
+      route: bus.route, // Added this to return all sub-routes
       students: bus.students
         .filter((student) => student.user) // Ensure user exists
         .map((student) => ({
@@ -298,5 +299,100 @@ exports.getBookedSeatsOfUser = async (req, res) => {
   } catch (error) {
     console.error("Error fetching booked buses:", error);
     res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+
+
+// Cancel Bus Booking
+exports.cancelBooking =  async (req, res) => {
+  try {
+    const { busId } = req.params;
+    const userId = req.user.id; // Get logged-in user's ID from token
+
+    // Find the bus and check if the student exists
+    const bus = await Bus.findById(busId);
+    if (!bus) {
+      return res.status(404).json({ message: "Bus not found" });
+    }
+
+    const studentIndex = bus.students.findIndex(
+      (student) => student.user.toString() === userId
+    );
+
+    if (studentIndex === -1) {
+      return res.status(400).json({ message: "You are not registered for this bus" });
+    }
+
+    // Remove student from the students array
+    bus.students.splice(studentIndex, 1);
+
+    // Decrease the occupied seats count
+    if (bus.occupiedSeats > 0) {
+      bus.occupiedSeats -= 1;
+    }
+
+    // Save the updated bus document
+    await bus.save();
+
+    res.status(200).json({ message: "Booking canceled successfully" });
+  } catch (error) {
+    console.error("Error canceling booking:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+exports.updateBusDetails = async (req, res) => {
+   try {
+     const { busId } = req.params;
+     const updatedData = req.body;
+
+     // Fetch the existing bus to retain booked students
+     const existingBus = await Bus.findById(busId);
+     if (!existingBus) {
+       return res.status(404).json({ message: "Bus not found" });
+     }
+
+     // Preserve booked students
+     updatedData.bookedStudents = existingBus.bookedStudents;
+
+     const updatedBus = await Bus.findByIdAndUpdate(busId, updatedData, {
+       new: true,
+     });
+
+     res.json({ message: "Bus details updated successfully", bus: updatedBus });
+   } catch (error) {
+     console.error(error);
+     res.status(500).json({ message: "Server error" });
+   }
+};
+
+
+exports.BusStatusChange = async (req, res) => {
+  try {
+    const { busId } = req.params;
+    const { status } = req.body; // Expecting "active" or "inactive"
+
+    // Validate the status value before updating
+    if (!["active", "inactive"].includes(status)) {
+      return res.status(400).json({ message: "Invalid status value" });
+    }
+
+    const updatedBus = await Bus.findByIdAndUpdate(
+      busId,
+      { status: status },
+      { new: true }
+    );
+
+    if (!updatedBus) {
+      return res.status(404).json({ message: "Bus not found" });
+    }
+
+    res.json({ message: "Bus status updated successfully", bus: updatedBus });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 };

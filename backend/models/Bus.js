@@ -7,12 +7,13 @@ const busSchema = new mongoose.Schema({
     {
       name: { type: String, required: true }, // Name of the sub-stop
       price: { type: Number },
+      time: { type: String},
     },
   ],
   totalSeats: { type: Number, default: 50 },
   occupiedSeats: { type: Number, default: 0 },
   driverName: { type: String },
-  driverPhone: { type: String},
+  driverPhone: { type: String },
   students: [
     {
       user: {
@@ -20,11 +21,12 @@ const busSchema = new mongoose.Schema({
         ref: "User",
         required: true,
       }, // Reference to User
+
       phoneNumber: { type: String },
       placeToReach: { type: String, required: true },
     },
   ],
-  status: { type: String, enum: ["active", "inactive"], default: "active" }
+  status: { type: String, enum: ["active", "inactive"], default: "active" },
 });
 
 

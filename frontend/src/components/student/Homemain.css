@@ -1,0 +1,23 @@
+/* Existing styles... */
+/* body{
+  margin: 0%;
+  padding: 0%;
+  width: 100%;
+}
+
+#root{
+  margin: 0%;
+  padding: 0;
+} */
+
+.homepage-background {
+  text-align: center;
+  color: #ffffff;
+  font-size: 3rem;
+  width: 100%;
+  background-image: url('https://ncas.nirmalacollege.edu.in/images/sliders/slider2.jpg?1899571151');
+  background-size: cover;
+  background-position: center;
+  height: 99.6vh; /* Full height of the viewport */
+  overflow: hidden; /* Prevent overflow */
+}
